@@ -46,6 +46,19 @@ func main() {
 	switch os.Args[1] {
 	case "add":
 		fmt.Println("Adding task...")
+		if len(os.Args) < 3 {
+			fmt.Println("Usage: go-do add <task name>")
+			return
+		}
+		tasks, _ := loadTasks()
+		newTask := Task{
+			ID:	  len(tasks) + 1,
+			Name: os.Args[2],
+			Done: false,
+		}
+		tasks = append(tasks, newTask)
+		saveTasks(tasks)
+		fmt.Println("✓ Added:", newTask.Name)
 	case "list":
 		fmt.Println("Listing tasks...")
 	case "done":
