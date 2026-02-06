@@ -60,7 +60,18 @@ func main() {
 		saveTasks(tasks)
 		fmt.Println("✓ Added:", newTask.Name)
 	case "list":
-		fmt.Println("Listing tasks...")
+		tasks, _ := loadTasks()
+		if len(tasks) == 0 {
+			fmt.Println("No tasks yet")
+			return
+		}
+		for _, task := range tasks {
+			status := "[ ]"
+			if task.Done {
+				status = "[x]"
+			}
+			fmt.Printf("%d. %s %s\n", task.ID, status, task.Name)
+		} 
 	case "done":
 		fmt.Println("Completing task...")
 	default:
