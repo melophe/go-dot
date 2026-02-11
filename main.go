@@ -73,7 +73,23 @@ func main() {
 			fmt.Printf("%d. %s %s\n", task.ID, status, task.Name)
 		} 
 	case "done":
-		fmt.Println("Completing task...")
+		if len(os.Args) < 3 {
+			fmt.Println("Usage: go-do done <task id>")
+			return
+		}
+		id := 0
+		fmt.Sscanf(os.Args[2], "%d", &id)
+		
+		tasks, _ := loadTasks()
+		for i, task := range tasks {
+			if task.ID == id {
+				tasks[i].Done = true
+				saveTasks(tasks)
+				fmt.Println("✓ Completed:", task.Name)
+				return
+			}
+		}
+		fmt.Println("Task not found:", id)
 	default:
 		fmt.Println("Unknown command:", os.Args[1])
 	}
