@@ -90,6 +90,24 @@ func main() {
 			}
 		}
 		fmt.Println("Task not found:", id)
+	case "delete":
+		if len(os.Args) < 3 {
+			fmt.Println("Usage: go-do delete <task id>")
+			return
+		}
+		id := 0
+		fmt.Sscanf(os.Args[2], "%d", &id)
+
+		tasks, _ := loadTasks()
+		for i, task := range tasks {
+			if task.ID == id {
+				tasks = append(tasks[:i], tasks[i+1:]...)
+				saveTasks(tasks)
+				fmt.Println("✓ Deleted:", task.Name)
+				return
+			}
+		}
+		fmt.Println("Task not found:", id)
 	default:
 		fmt.Println("Unknown command:", os.Args[1])
 	}
